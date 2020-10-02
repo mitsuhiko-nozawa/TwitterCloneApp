@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+from datetime import timedelta  # 追加
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -40,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'djoser',
 ]
 
 MIDDLEWARE = [
@@ -126,3 +129,17 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # LOGIN_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/home/'
+
+REST_FRAMEWORK = {
+    # 認証クラスに Cookie 認証 （SessionAuthentication） を指定
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+
+SIMPLE_JWT = {  # 追加
+    'AUTH_HEADER_TYPES': ('JWT',),  # 追加
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),  # 有効期限
+}
+
+
